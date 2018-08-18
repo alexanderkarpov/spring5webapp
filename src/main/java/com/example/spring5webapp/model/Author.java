@@ -1,14 +1,15 @@
 package com.example.spring5webapp.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(of = {"id"})
 public class Author {
 
     @Id
@@ -17,4 +18,20 @@ public class Author {
     private String firstName;
     private String lastName;
 
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books = new HashSet<>();
+
+    public Author() {
+    }
+
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Author(String firstName, String lastName, Set<Book> books) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = books;
+    }
 }
